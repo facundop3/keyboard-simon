@@ -1,0 +1,51 @@
+*{
+  color: white;
+}
+
+body{
+  background: black;
+  display: flex;
+  justify-content: center;
+}
+.keyboard-container{
+  display: inline-block;
+  /*background-color: red;*/
+  margin-top: 5%;
+}
+.keyboard-line{
+}
+.key{
+  width: 140px;
+  height: 140px;
+  border-radius: 20%;
+  border: 2px solid white;
+  display: inline-block;
+  text-align: center;
+  font-size: 45px;
+  font-family: monospace;
+  margin: 10px;
+}
+
+.key:hover{
+  background-color: rgb(234, 175, 37);
+}
+
+.key.active{
+  background-color: white;
+  color: black;
+}
+.key.active.success{
+  background-color: rgb(46, 188, 35);
+  border-color: rgb(46, 188, 35);
+}
+.key.active.fail{
+  background-color: rgb(237, 33, 101);
+  border-color: rgb(237, 33, 101);
+}
+
+#second-line{
+  margin-left: 2%;
+}
+#third-line{
+  margin-left: 4%;
+}
