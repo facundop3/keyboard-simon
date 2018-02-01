@@ -42,19 +42,48 @@
       </div>
     </div>
     <script type="text/javascript">
-    const levels =20;
-    function getRanomKeys(niveles){
-    return new Array(niveles).fill(0).map(getRandomKey);
-    }
+    const niveles =20;
+    let teclas = getRanomKeys(niveles);
     function nextLevel(currentLevel){
-      (currentLevel == levels) ? alert('ganaste') :''
-      alert(`Nivel : ${currentLevel+1}`);
-    }
+      (currentLevel == niveles) ?  alert('ganaste') : ''
+      for (let i = 0; i <= currentLevel; i++) {
+        setTimeout(()=>{activate(teclas[i])}, (1000)*(i+1))
+      }
+      let i =0;
+      let currentKey= teclas[i];
+      window.addEventListener('keydown', keyPressed)
 
+      function keyPressed(ev){
+        console.log(ev.keyCode);
+        if(ev.keyCode == currentKey){
+          activate(currentKey, {success:true});
+          i++
+          if (i>currentLevel) {
+            window.removeEventListener('keydown', keyPressed )
+            setTimeout(()=>nextLevel(i), 1000)
+          }
+          currentKey = teclas[i]
+        }else{
+          activate(ev.keyCode, {fail:true})
+          window.removeEventListener('keydown', keyPressed )
+          alert(`Perdiste nivel : ${currentLevel}/ ${niveles}`)
+          nextLevel(0)
+        }
+      }
+    }
+    nextLevel(0)
+    function keyPressed(){
+      window.addEventListener('keydown', (ev)=>{
+
+      })
+    }
     function getRandomKey(){
       const min = 65;
       const max =90;
       return Math.round(Math.random() *(max-min)  + min)
+    }
+    function getRanomKeys(niveles){
+      return new Array(niveles).fill(0).map(getRandomKey);
     }
     function  getElementByKeyCode(dataKey){
       return document.querySelector(`[data-key="${dataKey}"]`)
