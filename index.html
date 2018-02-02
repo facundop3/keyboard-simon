@@ -9,38 +9,39 @@
   <body>
     <div class="keyboard-container animated fadeInDown">
       <div class="keyboard-line">
-        <div class="key" data-key="81">Q</div>
-        <div class="key" data-key="87">W</div>
-        <div class="key" data-key="69">E</div>
-        <div class="key" data-key="82">R</div>
-        <div class="key" data-key="84">T</div>
-        <div class="key" data-key="89">Y</div>
-        <div class="key" data-key="85">U</div>
-        <div class="key" data-key="73">I</div>
-        <div class="key" data-key="79">O</div>
-        <div class="key" data-key="80">P</div>
+        <div class="key noselect" data-key="81">Q</div>
+        <div class="key noselect" data-key="87">W</div>
+        <div class="key noselect" data-key="69">E</div>
+        <div class="key noselect" data-key="82">R</div>
+        <div class="key noselect" data-key="84">T</div>
+        <div class="key noselect" data-key="89">Y</div>
+        <div class="key noselect" data-key="85">U</div>
+        <div class="key noselect" data-key="73">I</div>
+        <div class="key noselect" data-key="79">O</div>
+        <div class="key noselect" data-key="80">P</div>
       </div>
       <div class="keyboard-line" id="second-line">
-        <div class="key" data-key="65">A</div>
-        <div class="key" data-key="83">S</div>
-        <div class="key" data-key="68">D</div>
-        <div class="key" data-key="70">F</div>
-        <div class="key" data-key="71">G</div>
-        <div class="key" data-key="72">H</div>
-        <div class="key" data-key="74">J</div>
-        <div class="key" data-key="75">K</div>
-        <div class="key" data-key="76">L</div>
+        <div class="key noselect" data-key="65">A</div>
+        <div class="key noselect" data-key="83">S</div>
+        <div class="key noselect" data-key="68">D</div>
+        <div class="key noselect" data-key="70">F</div>
+        <div class="key noselect" data-key="71">G</div>
+        <div class="key noselect" data-key="72">H</div>
+        <div class="key noselect" data-key="74">J</div>
+        <div class="key noselect" data-key="75">K</div>
+        <div class="key noselect" data-key="76">L</div>
       </div>
       <div class="keyboard-line" id="third-line">
-        <div class="key" data-key="90">Z</div>
-        <div class="key" data-key="88">X</div>
-        <div class="key" data-key="67">C</div>
-        <div class="key" data-key="86">V</div>
-        <div class="key" data-key="66">B</div>
-        <div class="key" data-key="78">N</div>
-        <div class="key" data-key="77">M</div>
+        <div class="key noselect" data-key="90">Z</div>
+        <div class="key noselect" data-key="88">X</div>
+        <div class="key noselect" data-key="67">C</div>
+        <div class="key noselect" data-key="86">V</div>
+        <div class="key noselect" data-key="66">B</div>
+        <div class="key noselect" data-key="78">N</div>
+        <div class="key noselect" data-key="77">M</div>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
     const niveles =20;
     let teclas = getRanomKeys(niveles);
@@ -52,10 +53,10 @@
       let i =0;
       let currentKey= teclas[i];
       window.addEventListener('keydown', keyPressed)
-
+      myClick= Array.from($('.key')).forEach((element)=>element.addEventListener("click", (ev)=>keyPressed(ev)));
       function keyPressed(ev){
         console.log(ev.keyCode);
-        if(ev.keyCode == currentKey){
+        if((ev.keyCode == currentKey) || (currentKey == ev.target.getAttribute('data-key'))){
           activate(currentKey, {success:true});
           i++
           if (i>currentLevel) {
@@ -64,13 +65,20 @@
           }
           currentKey = teclas[i]
         }else{
+          if(ev.target.getAttribute('data-key')){
+            activate(ev.target.getAttribute('data-key'), {fail:true})
+          }else{
           activate(ev.keyCode, {fail:true})
+        }
+          window.removeEventListener('keydown', keyPressed )
+          alert(`Perdiste nivel : ${currentLevel}/ ${niveles}`)
+          nextLevel(0)
           window.removeEventListener('keydown', keyPressed )
           alert(`Perdiste nivel : ${currentLevel}/ ${niveles}`)
           nextLevel(0)
         }
       }
-    }
+  }
     nextLevel(0)
     function keyPressed(){
       window.addEventListener('keydown', (ev)=>{
@@ -100,7 +108,7 @@
     }
     function deactivate(el){
       setTimeout(()=>{
-        el.className = "key";
+        el.className = "key noselect";
       }, 1000)
     }
     </script>
