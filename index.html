@@ -42,38 +42,40 @@
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript">
     const niveles =20;
-    let teclas = getRanomKeys(niveles);
+    teclas = getRanomKeys(niveles);
     function nextLevel(currentLevel){
-      (currentLevel == niveles) ?  alert('ganaste') : ''
+      (currentLevel == niveles) ?   swal({title:'Ganaste:', icon: "success", text:`nivel ${currentLevel}/ ${niveles}`}) : ''
       for (let i = 0; i <= currentLevel; i++) {
         setTimeout(()=>{activate(teclas[i])}, (1000)*(i+1))
       }
       window.addEventListener('keydown', keyPressed);
-      $(document).click(function(event) {
-        var text = $(event.target);
-        keyPressed({keyCode:text[0].getAttribute('data-key')});
-        });
+      window.addEventListener('click', (ev)=>keyPressed({keyCode:ev.toElement.getAttribute('data-key')}));
 
       let i =0;
       let currentKey= teclas[i];
       function keyPressed(ev){
-        console.log(ev.keyCode);
-        // console.log(ev);
-        console.log(currentKey);
-        if((ev.keyCode == currentKey)){
-          activate(currentKey, {success:true});
-          i++
-          currentKey = teclas[i]
-          if (i>currentLevel) {
-            window.removeEventListener('keydown', keyPressed )
-            setTimeout(()=>nextLevel(i), 1000)
-          }
+        if(ev.keyCode == currentKey){
+            activate(currentKey, {success:true});
+            i++
+            currentKey = teclas[i]
+            if (i>currentLevel) {
+              window.removeEventListener('keydown', keyPressed )
+              window.removeEventListener('click', keyPressed )
+              setTimeout(()=>nextLevel(i), 1000)
+            }
         }else{
+
           activate(ev.keyCode, {fail:true})
           window.removeEventListener('keydown', keyPressed )
-          alert(`Perdiste nivel : ${currentLevel}/ ${niveles}`)
+          window.removeEventListener('click', keyPressed )
+          swal({
+            title:'Perdiste:',
+            icon: "error",
+            text:`nivel ${currentLevel}/ ${niveles}`,
+          });
           nextLevel(0);
         }
       }
