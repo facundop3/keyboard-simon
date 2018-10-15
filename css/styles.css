@@ -6,14 +6,11 @@ body{
   background: black;
   display: flex;
   justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
 }
-.keyboard-container{
-  display: inline-block;
-  /*background-color: red;*/
-  margin-top: 5%;
-}
-.keyboard-line{
-}
+
 .key{
   width: 140px;
   height: 140px;
@@ -23,7 +20,7 @@ body{
   text-align: center;
   font-size: 45px;
   font-family: monospace;
-  margin: 10px;
+  margin: 5px;
 }
 
 .key:hover{
@@ -50,22 +47,4 @@ body{
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
-}
-
-#second-line{
-  margin-left: 2%;
-}
-#third-line{
-  margin-left: 4%;
-}
-
-@media screen and (max-width: 1447px){
-  .key{
-    width: 66px;
-    height: 66px;
-    margin: 11px;
-  }
-  .keyboard-container{
-    margin-top: 60%;
-  }
 }

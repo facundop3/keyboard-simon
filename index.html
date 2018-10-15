@@ -8,7 +8,7 @@
   </head>
   <body>
     <div class="keyboard-container animated fadeInDown">
-      <div class="keyboard-line">
+      <div class="keyboard-line" id="first-line">
         <div class="key noselect" data-key="81">Q</div>
         <div class="key noselect" data-key="87">W</div>
         <div class="key noselect" data-key="69">E</div>
@@ -43,71 +43,6 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script type="text/javascript">
-    const niveles =20;
-    teclas = getRanomKeys(niveles);
-    function nextLevel(currentLevel){
-      (currentLevel == niveles) ?   swal({title:'Ganaste:', icon: "success", text:`nivel ${currentLevel}/ ${niveles}`}) : ''
-      for (let i = 0; i <= currentLevel; i++) {
-        setTimeout(()=>{activate(teclas[i])}, (1000)*(i+1))
-      }
-      window.addEventListener('keydown', keyPressed);
-      window.addEventListener('click', (ev)=>keyPressed({keyCode:ev.toElement.getAttribute('data-key')}));
-
-      let i =0;
-      let currentKey= teclas[i];
-      function keyPressed(ev){
-        if(ev.keyCode == currentKey){
-            activate(currentKey, {success:true});
-            i++
-            currentKey = teclas[i]
-            if (i>currentLevel) {
-              window.removeEventListener('keydown', keyPressed )
-              window.removeEventListener('click', keyPressed )
-              setTimeout(()=>nextLevel(i), 1000)
-            }
-        }else{
-
-          activate(ev.keyCode, {fail:true})
-          window.removeEventListener('keydown', keyPressed )
-          window.removeEventListener('click', keyPressed )
-          swal({
-            title:'Perdiste:',
-            icon: "error",
-            text:`nivel ${currentLevel}/ ${niveles}`,
-          });
-          nextLevel(0);
-        }
-      }
-  }
-  nextLevel(0)
-
-    function getRandomKey(){
-      const min = 65;
-      const max =90;
-      return Math.round(Math.random() *(max-min)  + min)
-    }
-    function getRanomKeys(niveles){
-      return new Array(niveles).fill(0).map(getRandomKey);
-    }
-    function  getElementByKeyCode(dataKey){
-      return document.querySelector(`[data-key="${dataKey}"]`)
-    }
-    function activate(keyCode, options={}){
-      const el = getElementByKeyCode(keyCode);
-      el.classList.add('active');
-      if(options.success){
-        el.classList.add('success');
-      }else if(options.fail){
-        el.classList.add('fail');
-      }
-      deactivate(el)
-    }
-    function deactivate(el){
-      setTimeout(()=>{
-        el.className = "key noselect";
-      }, 1000)
-    }
-    </script>
+    <script src="./js/index.js"></script>
   </body>
 </html>
